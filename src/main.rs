@@ -5,12 +5,27 @@ use std::error::Error;
 use tokio;
 use warp::Filter;
 
+use couch_rs::document::DocumentCollection;
+use couch_rs::types::find::FindQuery;
+use serde_json::Value;
+
+const DB_HOST: &str = "http://localhost:5984";
+const TEST_DB: &str = "test_db";
+
 #[tokio::main]
-async fn main() {
+async fn main() -> Result<(), Box<dyn Error>> {
+    let client = couch_rs::Client::new(DB_HOST, "admin", "password")?;
+    let db = client.db(TEST_DB).await?;
+    let find_all = FindQuery::find_all();
+    let docs = db.find_raw(&find_all).await?;
+    
     // Match any request and return hello world!
     let routes = warp::any().map(|| "Hello, World!");
 
     warp::serve(routes).run(([127, 0, 0, 1], 3030)).await;
+
+    
+    Ok(())
 }
 
 // #[tokio::main]
