@@ -13,6 +13,7 @@ const TEST_DB: &str = "test_db";
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn Error>> {
+    // Just a test
     let a = 3;
     let b = 1 + 2;
     assert_eq!(a, b);
@@ -32,8 +33,9 @@ async fn main() -> Result<(), Box<dyn Error>> {
     // });
 
     // Match any request and return hello world!
-    let routes = warp::any().map(|| {
-        let our_ids = vec![1, 3, 7, 13, 128];
+    let routes = warp::any().map(move || {
+        // let our_ids = vec![1, 3, 7, 13, 128];
+        let our_ids = docs.get_data();
         warp::reply::json(&our_ids)
     });
 
