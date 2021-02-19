@@ -24,8 +24,18 @@ async fn main() -> Result<(), Box<dyn Error>> {
 
     println!("{:#?}", docs.get_data());
 
+    // GET /ids returns a `200 OK` with a JSON array of ids:
+    // `[1, 3, 7, 13]`
+    // let routes = warp::path("ids").map(|| {
+    //     let our_ids = vec![1, 3, 7, 13];
+    //     warp::reply::json(&our_ids)
+    // });
+
     // Match any request and return hello world!
-    let routes = warp::any().map(|| "Hello, World!");
+    let routes = warp::any().map(|| {
+        let our_ids = vec![1, 3, 7, 13, 128];
+        warp::reply::json(&our_ids)
+    });
 
     println!("Attempting to listen on http://127.0.0.1:3030/");
 
