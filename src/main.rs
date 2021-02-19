@@ -1,12 +1,11 @@
 use chrono::{DateTime, NaiveDateTime, TimeZone, Utc};
-use mongodb::bson::{self, doc, Bson};
 use std::env;
 use std::error::Error;
 use tokio;
 use warp::Filter;
-
 use couch_rs::document::DocumentCollection;
 use couch_rs::types::find::FindQuery;
+use serde_json::json;
 use serde_json::Value;
 
 const DB_HOST: &str = "http://localhost:5984";
@@ -18,13 +17,15 @@ async fn main() -> Result<(), Box<dyn Error>> {
     let db = client.db(TEST_DB).await?;
     let find_all = FindQuery::find_all();
     let docs = db.find_raw(&find_all).await?;
-    
+
+    println!("{:#?}", docs.get_data());
+
     // Match any request and return hello world!
     let routes = warp::any().map(|| "Hello, World!");
 
-    warp::serve(routes).run(([127, 0, 0, 1], 3030)).await;
+    println!("Attempting to listen on http://127.0.0.1:3030/");
 
-    
+    warp::serve(routes).run(([127, 0, 0, 1], 3030)).await;
     Ok(())
 }
 
