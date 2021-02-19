@@ -1,18 +1,22 @@
 use chrono::{DateTime, NaiveDateTime, TimeZone, Utc};
-use std::env;
-use std::error::Error;
-use tokio;
-use warp::Filter;
 use couch_rs::document::DocumentCollection;
 use couch_rs::types::find::FindQuery;
 use serde_json::json;
 use serde_json::Value;
+use std::env;
+use std::error::Error;
+use tokio;
+use warp::Filter;
 
 const DB_HOST: &str = "http://localhost:5984";
 const TEST_DB: &str = "test_db";
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn Error>> {
+    let a = 3;
+    let b = 1 + 3;
+    assert_eq!(a, b);
+
     let client = couch_rs::Client::new(DB_HOST, "admin", "password")?;
     let db = client.db(TEST_DB).await?;
     let find_all = FindQuery::find_all();
