@@ -14,7 +14,7 @@ const TEST_DB: &str = "test_db";
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn Error>> {
     let a = 3;
-    let b = 1 + 3;
+    let b = 1 + 2;
     assert_eq!(a, b);
 
     let client = couch_rs::Client::new(DB_HOST, "admin", "password")?;
